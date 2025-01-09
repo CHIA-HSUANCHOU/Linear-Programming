@@ -18,7 +18,7 @@ Course: Linear Programming
 - Outputs all non-zero solution variables (including slack variables).
 
 
-## 2. Simplex Method Selection Logic:
+## 2. Simplex Method Selection Logic
 
  1. Check for unboundedness:
     - If the LP is unbounded, terminate and return an unbounded solution.
