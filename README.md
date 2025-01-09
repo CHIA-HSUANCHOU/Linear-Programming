@@ -58,7 +58,9 @@ Author: Group 4
 Date: 2024-11-11
 
 Course: Linear Programming
+
 ---
+
 ## 1. Main Features
 
 We add some functions from project1
