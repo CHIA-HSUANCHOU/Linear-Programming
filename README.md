@@ -72,63 +72,92 @@ We add some functions from project1
 
 ## 2. Selection Logic
 **Part 1**
+
  - Simplex Method Selection Logic
 
 **Part 2**
  Printing out slack variables, dual variables and dual surplus variables:
+ 
     - Slack variables: 
+    
       Calculated during the Primal Simplex method, Bland's Rule and Two-Phase Methods. 
+      
       The values for slack variables are displayed after the final solution is computed. 
+      
       It is calculated based on the difference between the LHS and RHS for each constraint.
+      
     - Dual surplus: 
+
       Calculated during the Dual Simplex method. 
+      
       Dual surplus measures how much the right-hand side of a constraint can increase without violating dual feasibility. 
+      
     - Dual variables/Shadow prices: 
+    
       The dual variables (or shadow prices) are calculated from the objective coefficients of the basic variables. 
+      
       These represent the marginal value of increasing each constraint's RHS by one unit. 
 
 **Part 3**
  Sensitive analysis:
+ 
     - Examines the robustness of the solution by calculating allowable ranges for:
+    
         1. the right-hand side (RHS) constants
+        
         2. objective function coefficients
-        3. coefficients in the left-hand side (LHS) matrix 
+        
+        3. coefficients in the left-hand side (LHS) matrix         
     - Determines the extent to which these values can change without altering the optimal basis of the solution. 
     - For each constraint and variable, it outputs the allowable range, enabling an understanding of the solution's sensitivity to data changes in the model.
 
 **Part 4**
  Path-following method: 
+ 
     - Initializing primal (x, ω) and dual (y, z) variables with positive feasible values:
+    
       These variables must satisfy the linear constraints defined by matrix A and vectors b, c 
+      
       where:
-        - x and ω are primal variables for the linear program.
+      
+        - x and ω are primal variables for the linear program.        
         - y and z are dual variables corresponding to the constraints and objective function.
-
     - Calculating residuals to measure the feasibility of the current solution:
-        - Primal residual, ρ = b - A  x - ω, checks if the primal variables satisfy the constraints.
+    
+        - Primal residual, ρ = b - A  x - ω, checks if the primal variables satisfy the constraints.        
         - Dual residual, σ = c - A^T  y + z, verifies the constraints on the dual side.
+        
       These residuals indicate how far the current solution is from being feasible in both the primal and dual spaces.
   
     - Computing the duality measure (μ) to assess convergence:
+    
       The duality measure is calculated as μ = δ  γ / (n + m), 
+      
       where:
-        - δ (delta) controls the convergence rate.
-        - γ = x^T  z + ω^T  y is the duality gap, reflecting the difference between primal 
-          and dual objective values.
+      
+        - δ (delta) controls the convergence rate.        
+        - γ = x^T  z + ω^T  y is the duality gap, reflecting the difference between primal  and dual objective values.
+          
       This measure μ determines the progress toward the optimal solution; the method stops once μ is below a predefined tolerance level.
   
     - Constructing and solving a linear system to find adjustments (deltas) for primal and dual variables:
+    
       The system of equations includes:
-        - A * Δx + Δω = ρ, ensuring primal residual reduction.
-        - A^T * Δy - Δz = σ, ensuring dual residual reduction.
-        - Z * Δx + X * Δz = μ - x * z, enforcing centrality by maintaining a positive product of x and z.
+      
+        - A * Δx + Δω = ρ, ensuring primal residual reduction.        
+        - A^T * Δy - Δz = σ, ensuring dual residual reduction.        
+        - Z * Δx + X * Δz = μ - x * z, enforcing centrality by maintaining a positive product of x and z.        
         - W * Δy + Y * Δω = μ - y * ω, maintaining positive products for y and ω.
+        
      Solving this system provides updates (Δx, Δy, Δz, Δω) to improve feasibility and reduce the duality gap.
  
     - Updating variables and recalculating the duality measure iteratively:
+    
       Using the step length θ, calculated to keep updates within the feasible region, variables are adjusted as:
-        - x = x + θ * Δx, y = y + θ * Δy, z = z + θ * Δz, and ω = ω + θ * Δω.
+      
+        - x = x + θ * Δx, y = y + θ * Δy, z = z + θ * Δz, and ω = ω + θ * Δω.        
         - After each update, the duality measure μ is recalculated to check convergence.
+        
       The process repeats until μ < tolerance or the maximum iteration limit is reached.
 
 
