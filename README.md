@@ -176,7 +176,7 @@ Logic for choosing between the various simplex methods based on the problem's fe
 
 ---
 
-Project 3: Farmer’s Problem with Bendor Decomposition
+Project 3: Farmer’s Problem with Bender Decomposition
 
 Author: Group 4
 
@@ -188,7 +188,7 @@ Course: Linear Programming
 
 ## 1. Overviews
 
-This project solves a farmer's crop allocation problem using **Bender Decomposition** to optimize planting decisions while accounting for uncertainties in yield.
+This project solves a farmer's problem using **Bender Decomposition** to optimize planting decisions while accounting for uncertainties in yield.
 
 ## 2. Problem Description
 
@@ -201,46 +201,79 @@ This project solves a farmer's crop allocation problem using **Bender Decomposit
 | **Corn**     | 3.0            | 230                    | 150                                 | 210                   | 240                |
 | **Sugar Beets** | 20.0         | 260                    | 36 (up to 6000 T), 10 (above 6000 T) | Not Applicable    | Not Applicable    |
 
-## Objective Function
-(Take number of scenario = 3 and choose C1 as first-stage constraints)
+## 3. Objective Function
 
-The objective is to **minimize total costs**, which include:
-1.**First-Stage Planting Cost**
+(Taking the number of scenarios = 3 and choosing C1 as first-stage constraints)
+
+### First-Stage Objective Function
+
 150x_1 + 230x_2 + 260x_3
 
-2. **Second-Stage Shortfall and Surplus Costs**:
-238y_1 + 210y_2 - 170w_1 - 150w_2 - 36w_3 - 10w_4
+### Second-Stage Objective Function
+1/3*(238y_11 + 210y_21 - 170w_11 - 150w_21 - 36w_31 - 10w_41)
++1/3*(238y_12 + 210y_22 - 170w_12 - 150w_22 - 36w_32 - 10w_42)
++1/3*(238y_13 + 210y_23 - 170w_13 - 150w_23 - 36w_33 - 10w_43)
 
-## Constraints
+## 4. Constraints
 
-- **Total Land Constraint**:x_1 + x_2 + x_3 <= 500
+### First-Stage Constraints
+C1:x_1 + x_2 + x_3 <= 500
 
-- **Wheat Yield Shortfall**:2.5x_1 + y_1 - w_1 >= 200 (rearranged as: -2.5x_1 - y_1 + w_1 <= -200)
+### Second-Stage Constraints
+C2_S1: -2.0*x_1 + -1.0*y_1_1 + 1.0*w_1_1 ≤ -200.0
+C3_S1: -2.4*x_2 + -1.0*y_2_1 + 1.0*w_2_1 ≤ -240.0
+C4_S1: -16.0*x_3 + 1.0*w_3_1 + 1.0*w_4_1 ≤ 0.0
+C5_S1: 1.0*w_3_1 ≤ 6000.0
+C2_S2: -2.5*x_1 + -1.0*y_1_2 + 1.0*w_1_2 ≤ -200.0
+C3_S2: -3.0*x_2 + -1.0*y_2_2 + 1.0*w_2_2 ≤ -240.0
+C4_S2: -20.0*x_3 + 1.0*w_3_2 + 1.0*w_4_2 ≤ 0.0
+C5_S2: 1.0*w_3_2 ≤ 6000.0
+C2_S3: -3.0*x_1 + -1.0*y_1_3 + 1.0*w_1_3 ≤ -200.0
+C3_S3: -3.6*x_2 + -1.0*y_2_3 + 1.0*w_2_3 ≤ -240.0
+C4_S3: -24.0*x_3 + 1.0*w_3_3 + 1.0*w_4_3 ≤ 0.0
+C5_S3: 1.0*w_3_3 ≤ 6000.0
 
-- **Corn Yield Shortfall**:3x_2 + y_2 - w_2 >= 240 (rearranged as: -3x_2 - y_2 + w_2 <= -240)
+## 5. Flow:
 
-- **Sugar Beet Selling Capacity**:w_3 + w_4 <= 20x_3 (rearranged as: w_3 + w_4 - 20x_3 <= 0)
+1. **User Input**:
+   - Select the number of scenarios and specify constraints for the master problem.
 
-- **Sugar Beet Tier Limit**: w_3 <= 6000
+2. **Solve Master Problem**:
+   - Solve the master problem using the primal simplex method. If infeasible, switch to the dual simplex method.
+   - Minimize:
+     ```
+     150x_1 + 230x_2 + 260x_3
+     ```
+   - Constraint:
+     ```
+     C1: x_1 + x_2 + x_3 <= 500
+     ```
+   - If the master problem is a complete recourse:
+     - No need to add feasibility cuts. Only optimal cuts are required.
+ 
+3. **Solve subproblems**
+- Check feasibility /Add Feasibility Cut
+If the problem is complete recourse => No need to do feasibility test 
+- Solve new master problem and resolve subproblem
+If feasibility cut added, solve the master problem and subproblem again
+- Check  optimality/Add  optimality cut
+After all scenarios of the subproblem  have been run through and optimality  has not been reached, add optimality cut to the master problem 
 
-## 3. Flow:
-1.User input:
-Choose scenario and Constraints in Master
+4. Iterate until convergence
+   - Stop when the **Upper Bound (UB)** and **Lower Bound (LB)** converge:
+     ```
+     UB = min(UB, objval)
+     LB = max(LB, thetaVal)
+     ```
+   - Or the maximum number of iterations (500) is reached.
 
-
-→ Build master problem → Solve master problem → Solve subproblems → Add cuts → Iterate until convergence.
-
-
-
-
-
-## 5. Contributions
+## 6. Contributions
 | Teammates | Department | Contribution |
 |-----------|------------|--------------|
 | **周佳萱 (ME)** | **Institute of Statistics** |  **Code-Structure, L-shape method, Optimility Cut, Feasibility Cut**  |
-|楊雅茗| Department of Industrial Engineering and Management| Code Stucture,Toolbox Implementation, Optimility Cut, ppt |
-|吳和晏| Department of Industrial Engineering and Management | Code Structure,Toolbox Implementation, Optimility Cut, ppt | 
-|王睿言| Department of Industrial Engineering and Management | L-shape method, Optimility Cut, Feasibility Cut, ppt|
+|楊雅茗| Department of Industrial Engineering and Management| Code Stucture,Toolbox Implementation, Optimility Cut|
+|吳和晏| Department of Industrial Engineering and Management | Code Structure,Toolbox Implementation, Optimility Cut| 
+|王睿言| Department of Industrial Engineering and Management | L-shape method, Optimility Cut, Feasibility Cut|
 
 
 
