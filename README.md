@@ -52,6 +52,7 @@ Course: Linear Programming
 
 
 ---
+
 Project 2: Implement Simplex Methods, sensitivity analysis, path-following method
 
 Author: Group 4
@@ -172,6 +173,74 @@ Logic for choosing between the various simplex methods based on the problem's fe
 |吳和晏| Department of Industrial Engineering and Management | Path-following method | 
 |王睿言| Department of Industrial Engineering and Management | Printing out slack variables, dual variables and dual surplus variables |
 
+
+---
+
+Project 3: Farmer’s Problem with Bendor Decomposition
+
+Author: Group 4
+
+Date: 2024-12-16
+
+Course: Linear Programming
+
+---
+
+## 1. Overviews
+
+This project solves a farmer's crop allocation problem using **Bender Decomposition** to optimize planting decisions while accounting for uncertainties in yield.
+
+## 2. Problem Description
+
+- **Crops**: Wheat, Corn, Sugar Beets  
+- **Available Land**: 500 acres  
+
+| Crop         | Yield (T/acre) | Planting Cost ($/acre) | Selling Price ($/T)                 | Purchase Price ($/T) | Minimum Demand (T) |
+|--------------|----------------|------------------------|-------------------------------------|-----------------------|--------------------|
+| **Wheat**    | 2.5            | 150                    | 170                                 | 238                   | 200                |
+| **Corn**     | 3.0            | 230                    | 150                                 | 210                   | 240                |
+| **Sugar Beets** | 20.0         | 260                    | 36 (up to 6000 T), 10 (above 6000 T) | Not Applicable    | Not Applicable    |
+
+## Objective Function
+(Take number of scenario = 3 and choose C1 as first-stage constraints)
+
+The objective is to **minimize total costs**, which include:
+1.**First-Stage Planting Cost**
+150x_1 + 230x_2 + 260x_3
+
+2. **Second-Stage Shortfall and Surplus Costs**:
+238y_1 + 210y_2 - 170w_1 - 150w_2 - 36w_3 - 10w_4
+
+## Constraints
+
+- **Total Land Constraint**:x_1 + x_2 + x_3 <= 500
+
+- **Wheat Yield Shortfall**:2.5x_1 + y_1 - w_1 >= 200 (rearranged as: -2.5x_1 - y_1 + w_1 <= -200)
+
+- **Corn Yield Shortfall**:3x_2 + y_2 - w_2 >= 240 (rearranged as: -3x_2 - y_2 + w_2 <= -240)
+
+- **Sugar Beet Selling Capacity**:w_3 + w_4 <= 20x_3 (rearranged as: w_3 + w_4 - 20x_3 <= 0)
+
+- **Sugar Beet Tier Limit**: w_3 <= 6000
+
+## 3. Flow:
+1.User input:
+Choose scenario and Constraints in Master
+
+
+→ Build master problem → Solve master problem → Solve subproblems → Add cuts → Iterate until convergence.
+
+
+
+
+
+## 5. Contributions
+| Teammates | Department | Contribution |
+|-----------|------------|--------------|
+| **周佳萱 (ME)** | **Institute of Statistics** |  **Code-Structure, L-shape method, Optimility Cut, Feasibility Cut**  |
+|楊雅茗| Department of Industrial Engineering and Management| Code Stucture,Toolbox Implementation, Optimility Cut, ppt |
+|吳和晏| Department of Industrial Engineering and Management | Code Structure,Toolbox Implementation, Optimility Cut, ppt | 
+|王睿言| Department of Industrial Engineering and Management | L-shape method, Optimility Cut, Feasibility Cut, ppt|
 
 
 
