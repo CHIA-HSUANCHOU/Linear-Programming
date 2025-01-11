@@ -1,6 +1,6 @@
 # Linear Programming Midterm Project 
 ---
-Project: Implement Simplex Methods
+Project 1: Implement Simplex Methods
 
 Author: Group 4
 
@@ -24,26 +24,27 @@ Course: Linear Programming
     - If the LP is unbounded, terminate and return an unbounded solution.
 
  2. Check primal/dual feasibility to determine the simplex method:
-    - If all b_i >= 0 (basic variables) and all c_N <= 0 (non-basic variables):
-      -> The initial dictionary is optimal. Terminate with the optimal solution.
+   - **Case 1:** If all \( b_i \geq 0 \) (basic variables) and all \( c_N \leq 0 \) (non-basic variables):  
+     → The initial dictionary is optimal. Terminate with the optimal solution.
 
-    - If all b_i >= 0 (basic variables) and some c_N > 0 (non-basic variables):
-      -> The initial dictionary is primal feasible. Use the Primal Simplex Method.
+   - **Case 2:** If all \( b_i \geq 0 \) (basic variables) and some \( c_N > 0 \) (non-basic variables):  
+     → The initial dictionary is primal feasible. Use the **Primal Simplex Method**.
 
-    - If some b_i < 0 (basic variables) and all c_N <= 0 (non-basic variables):
-      -> The initial dictionary is dual feasible. Use the Dual Simplex Method.
+   - **Case 3:** If some \( b_i < 0 \) (basic variables) and all \( c_N \leq 0 \) (non-basic variables):  
+     → The initial dictionary is dual feasible. Use the **Dual Simplex Method**.
 
-    - If both the b vector (basic variables) and c vector (non-basic variables) 
-      have negative components (neither primal nor dual feasible):
-      -> Use the Two-Phase Simplex Method to handle infeasibility.
+   - **Case 4:** If both the \( b \) vector (basic variables) and \( c \) vector (non-basic variables)  
+     have negative components (neither primal nor dual feasible):  
+     → Use the **Two-Phase Simplex Method** to handle infeasibility.
+
 
  3. Handle degeneracy:
-    - If degeneracy is detected, apply Bland's Rule to prevent cycling.
+    - If degeneracy is detected, apply **Bland's Rule** to prevent cycling.
 
 ## 3. Contributions
 | Teammates | Department | Contribution |
 |-----------|------------|--------------|
-| **周佳萱 (ME)** | **Institute of Statistics** |  **Simplex method selection Logic, two phase method**  |
+| **周佳萱 (ME)** | **Institute of Statistics** |  **Simplex Method Selection Logic,  Two phase method**  |
 |楊雅茗| Department of Industrial Engineering and Management| Simplex Method Selection Logic, Two phase method |
 |吳和晏| Department of Industrial Engineering and Management | Simplex Method Selection Logic, Bland's Rule | 
 |王睿言| Department of Industrial Engineering and Management | Simplex Method Selection Logic, Bland's Rule |
@@ -63,105 +64,111 @@ Course: Linear Programming
 
 ## 1. Main Features
 
-We add some functions from project1
- - Calculates the shadow price
- - Do the sensitivity analysis
- -Solves the LP again by using path following method
- - Compares the running time: simplex method & path following method 
+We have added the following features from Project 1:
+
+- Calculate the shadow price.
+- Perform sensitivity analysis.
+- Solve the LP again using the path-following method.
+- Compare the running time of the Simplex Method and the Path-Following Method.
 
 
 ## 2. Selection Logic
-**Part 1**
 
- - Simplex Method Selection Logic
+### **Part 1: Simplex Method Selection Logic**
 
-**Part 2**
- Printing out slack variables, dual variables and dual surplus variables:
- 
-    - Slack variables: 
-    
-      Calculated during the Primal Simplex method, Bland's Rule and Two-Phase Methods. 
-      
-      The values for slack variables are displayed after the final solution is computed. 
-      
-      It is calculated based on the difference between the LHS and RHS for each constraint.
-      
-    - Dual surplus: 
+Logic for choosing between the various simplex methods based on the problem's feasibility and degeneracy.(Same as project 1)
 
-      Calculated during the Dual Simplex method. 
-      
-      Dual surplus measures how much the right-hand side of a constraint can increase without violating dual feasibility. 
-      
-    - Dual variables/Shadow prices: 
-    
-      The dual variables (or shadow prices) are calculated from the objective coefficients of the basic variables. 
-      
-      These represent the marginal value of increasing each constraint's RHS by one unit. 
+---
 
-**Part 3**
- Sensitive analysis:
- 
-    - Examines the robustness of the solution by calculating allowable ranges for:
-    
-        1. the right-hand side (RHS) constants
-        
-        2. objective function coefficients
-        
-        3. coefficients in the left-hand side (LHS) matrix         
-    - Determines the extent to which these values can change without altering the optimal basis of the solution. 
-    - For each constraint and variable, it outputs the allowable range, enabling an understanding of the solution's sensitivity to data changes in the model.
+### **Part 2: Printing Slack Variables, Dual Variables, and Dual Surplus Variables**
 
-**Part 4**
- Path-following method: 
- 
-    - Initializing primal (x, ω) and dual (y, z) variables with positive feasible values:
-    
-      These variables must satisfy the linear constraints defined by matrix A and vectors b, c 
-      
-      where:
-      
-        - x and ω are primal variables for the linear program.        
-        - y and z are dual variables corresponding to the constraints and objective function.
-    - Calculating residuals to measure the feasibility of the current solution:
-    
-        - Primal residual, ρ = b - A  x - ω, checks if the primal variables satisfy the constraints.        
-        - Dual residual, σ = c - A^T  y + z, verifies the constraints on the dual side.
-        
-      These residuals indicate how far the current solution is from being feasible in both the primal and dual spaces.
-  
-    - Computing the duality measure (μ) to assess convergence:
-    
-      The duality measure is calculated as μ = δ  γ / (n + m), 
-      
-      where:
-      
-        - δ (delta) controls the convergence rate.        
-        - γ = x^T  z + ω^T  y is the duality gap, reflecting the difference between primal  and dual objective values.
-          
-      This measure μ determines the progress toward the optimal solution; the method stops once μ is below a predefined tolerance level.
-  
-    - Constructing and solving a linear system to find adjustments (deltas) for primal and dual variables:
-    
-      The system of equations includes:
-      
-        - A * Δx + Δω = ρ, ensuring primal residual reduction.        
-        - A^T * Δy - Δz = σ, ensuring dual residual reduction.        
-        - Z * Δx + X * Δz = μ - x * z, enforcing centrality by maintaining a positive product of x and z.        
-        - W * Δy + Y * Δω = μ - y * ω, maintaining positive products for y and ω.
-        
-     Solving this system provides updates (Δx, Δy, Δz, Δω) to improve feasibility and reduce the duality gap.
- 
-    - Updating variables and recalculating the duality measure iteratively:
-    
-      Using the step length θ, calculated to keep updates within the feasible region, variables are adjusted as:
-      
-        - x = x + θ * Δx, y = y + θ * Δy, z = z + θ * Δz, and ω = ω + θ * Δω.        
-        - After each update, the duality measure μ is recalculated to check convergence.
-        
-      The process repeats until μ < tolerance or the maximum iteration limit is reached.
+- **Slack Variables**:
+    - Calculated during the Primal Simplex Method, Bland's Rule, and Two-Phase Methods.
+    - Values for slack variables are displayed after computing the final solution.
+    - Defined as the difference between the LHS and RHS of each constraint.
 
+- **Dual Surplus**:
+    - Calculated during the Dual Simplex Method.
+    - Represents how much the right-hand side of a constraint can increase without violating dual feasibility.
 
-## 3. Contributions
+- **Dual Variables/Shadow Prices**:
+    - Derived from the objective coefficients of the basic variables.
+    - Represent the marginal value of increasing the RHS of a constraint by one unit.
+
+---
+
+### **Part 3: Sensitivity Analysis**
+
+- Examines the robustness of the solution by calculating allowable ranges for:
+    1. Right-hand side (RHS) constants.
+    2. Objective function coefficients.
+    3. Coefficients in the left-hand side (LHS) matrix.
+
+- Determines the extent to which these values can change without altering the optimal basis of the solution.
+- Outputs the allowable ranges for each constraint and variable, providing insights into the solution's sensitivity to data changes in the model.
+---
+
+### **Part 4: Path-Following Method**
+
+1. **Initialization**:
+    - Primal variables (\(x, \omega\)) and dual variables (\(y, z\)) are initialized with positive feasible values.
+    - Variables must satisfy linear constraints defined by matrix \(A\) and vectors \(b, c\):
+        - \(x, \omega\): Primal variables.
+        - \(y, z\): Dual variables corresponding to constraints and the objective function.
+
+2. **Residual Calculation**:
+    - **Primal Residual (\(\rho\))**:
+      \[
+      \rho = b - A x - \omega
+      \]
+      Ensures primal variables satisfy constraints.
+    - **Dual Residual (\(\sigma\))**:
+      \[
+      \sigma = c - A^T y + z
+      \]
+      Ensures dual variables satisfy constraints.
+
+3. **Duality Measure (\(\mu\))**:
+    - Measure of convergence, calculated as:
+      \[
+      \mu = \frac{\delta \gamma}{n + m}
+      \]
+      Where:
+        - \(\delta\): Convergence rate.
+        - \(\gamma = x^T z + \omega^T y\): Duality gap, reflecting the difference between primal and dual objective values.
+
+4. **Solve Linear System**:
+    - A system of equations is solved to find updates (\(\Delta x, \Delta y, \Delta z, \Delta \omega\)):
+        - Primal residual reduction:
+          \[
+          A \Delta x + \Delta \omega = \rho
+          \]
+        - Dual residual reduction:
+          \[
+          A^T \Delta y - \Delta z = \sigma
+          \]
+        - Centrality maintenance:
+          \[
+          Z \Delta x + X \Delta z = \mu - x z
+          \]
+          \[
+          W \Delta y + Y \Delta \omega = \mu - y \omega
+          \]
+
+5. **Variable Updates**:
+    - Adjust variables iteratively using step length (\(\theta\)):
+      \[
+      x = x + \theta \Delta x, \quad y = y + \theta \Delta y, \quad z = z + \theta \Delta z, \quad \omega = \omega + \theta \Delta \omega
+      \]
+    - Recalculate \(\mu\) and repeat until \(\mu < \text{tolerance}\) or the maximum iteration limit is reached.
+
+---
+
+## 3. Comparison
+
+- Compare the running times of the Simplex Method and Path-Following Method.
+
+## 4. Contributions
 | Teammates | Department | Contribution |
 |-----------|------------|--------------|
 | **周佳萱 (ME)** | **Institute of Statistics** | **Path-following method** |
