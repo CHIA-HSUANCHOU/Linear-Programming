@@ -24,16 +24,16 @@ Course: Linear Programming
     - If the LP is unbounded, terminate and return an unbounded solution.
 
  2. Check primal/dual feasibility to determine the simplex method:
-   - **Case 1:** If all \( b_i \geq 0 \) (basic variables) and all \( c_N \leq 0 \) (non-basic variables):  
+   - **Case 1:** If all `b[i] >= 0` (basic variables) and all `c_N[j] <= 0` (non-basic variables): 
      → The initial dictionary is optimal. Terminate with the optimal solution.
 
-   - **Case 2:** If all \( b_i \geq 0 \) (basic variables) and some \( c_N > 0 \) (non-basic variables):  
+   - **Case 2:** If all `b[i] >= 0` (basic variables) and some `c_N[j] > 0` (non-basic variables): 
      → The initial dictionary is primal feasible. Use the **Primal Simplex Method**.
 
-   - **Case 3:** If some \( b_i < 0 \) (basic variables) and all \( c_N \leq 0 \) (non-basic variables):  
+   - **Case 3:** If some `b[i] < 0` (basic variables) and all `c_N[j] <= 0` (non-basic variables): 
      → The initial dictionary is dual feasible. Use the **Dual Simplex Method**.
 
-   - **Case 4:** If both the \( b \) vector (basic variables) and \( c \) vector (non-basic variables)  
+   - **Case 4:**  If both the `b` vector (basic variables) and `c` vector (non-basic variables)  
      have negative components (neither primal nor dual feasible):  
      → Use the **Two-Phase Simplex Method** to handle infeasibility.
 
