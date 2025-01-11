@@ -206,33 +206,49 @@ This project solves a farmer's problem using **Bender Decomposition** to optimiz
 (Taking the number of scenarios = 3 and choosing C1 as first-stage constraints)
 
 ### First-Stage Objective Function
-
+```
 150x_1 + 230x_2 + 260x_3
-
+```
 ### Second-Stage Objective Function
+```
 1/3*(238y_11 + 210y_21 - 170w_11 - 150w_21 - 36w_31 - 10w_41)
-+1/3*(238y_12 + 210y_22 - 170w_12 - 150w_22 - 36w_32 - 10w_42)
-+1/3*(238y_13 + 210y_23 - 170w_13 - 150w_23 - 36w_33 - 10w_43)
 
++1/3*(238y_12 + 210y_22 - 170w_12 - 150w_22 - 36w_32 - 10w_42)
+
++1/3*(238y_13 + 210y_23 - 170w_13 - 150w_23 - 36w_33 - 10w_43)
+```
 ## 4. Constraints
 
 ### First-Stage Constraints
+```
 C1:x_1 + x_2 + x_3 <= 500
-
+```
 ### Second-Stage Constraints
+```
 C2_S1: -2.0*x_1 + -1.0*y_1_1 + 1.0*w_1_1 ≤ -200.0
-C3_S1: -2.4*x_2 + -1.0*y_2_1 + 1.0*w_2_1 ≤ -240.0
-C4_S1: -16.0*x_3 + 1.0*w_3_1 + 1.0*w_4_1 ≤ 0.0
-C5_S1: 1.0*w_3_1 ≤ 6000.0
-C2_S2: -2.5*x_1 + -1.0*y_1_2 + 1.0*w_1_2 ≤ -200.0
-C3_S2: -3.0*x_2 + -1.0*y_2_2 + 1.0*w_2_2 ≤ -240.0
-C4_S2: -20.0*x_3 + 1.0*w_3_2 + 1.0*w_4_2 ≤ 0.0
-C5_S2: 1.0*w_3_2 ≤ 6000.0
-C2_S3: -3.0*x_1 + -1.0*y_1_3 + 1.0*w_1_3 ≤ -200.0
-C3_S3: -3.6*x_2 + -1.0*y_2_3 + 1.0*w_2_3 ≤ -240.0
-C4_S3: -24.0*x_3 + 1.0*w_3_3 + 1.0*w_4_3 ≤ 0.0
-C5_S3: 1.0*w_3_3 ≤ 6000.0
 
+C3_S1: -2.4*x_2 + -1.0*y_2_1 + 1.0*w_2_1 ≤ -240.0
+
+C4_S1: -16.0*x_3 + 1.0*w_3_1 + 1.0*w_4_1 ≤ 0.0
+
+C5_S1: 1.0*w_3_1 ≤ 6000.0
+
+C2_S2: -2.5*x_1 + -1.0*y_1_2 + 1.0*w_1_2 ≤ -200.0
+
+C3_S2: -3.0*x_2 + -1.0*y_2_2 + 1.0*w_2_2 ≤ -240.0
+
+C4_S2: -20.0*x_3 + 1.0*w_3_2 + 1.0*w_4_2 ≤ 0.0
+
+C5_S2: 1.0*w_3_2 ≤ 6000.0
+
+C2_S3: -3.0*x_1 + -1.0*y_1_3 + 1.0*w_1_3 ≤ -200.0
+
+C3_S3: -3.6*x_2 + -1.0*y_2_3 + 1.0*w_2_3 ≤ -240.0
+
+C4_S3: -24.0*x_3 + 1.0*w_3_3 + 1.0*w_4_3 ≤ 0.0
+
+C5_S3: 1.0*w_3_3 ≤ 6000.0
+```
 ## 5. Flow:
 
 1. **User Input**:
@@ -253,10 +269,15 @@ C5_S3: 1.0*w_3_3 ≤ 6000.0
  
 3. **Solve subproblems**
 - Check feasibility /Add Feasibility Cut
-If the problem is complete recourse => No need to do feasibility test 
+
+  If the problem is complete recourse => No need to do feasibility test
+  
 - Solve new master problem and resolve subproblem
-If feasibility cut added, solve the master problem and subproblem again
+  
+  If feasibility cut added, solve the master problem and subproblem again
+  
 - Check  optimality/Add  optimality cut
+  
 After all scenarios of the subproblem  have been run through and optimality  has not been reached, add optimality cut to the master problem 
 
 4. Iterate until convergence
