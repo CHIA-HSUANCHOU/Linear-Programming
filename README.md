@@ -78,8 +78,6 @@ We have added the following features from Project 1:
 
 Logic for choosing between the various simplex methods based on the problem's feasibility and degeneracy.(Same as project 1)
 
----
-
 ### **Part 2: Printing Slack Variables, Dual Variables, and Dual Surplus Variables**
 
 - **Slack Variables**:
@@ -95,7 +93,6 @@ Logic for choosing between the various simplex methods based on the problem's fe
     - Derived from the objective coefficients of the basic variables.
     - Represent the marginal value of increasing the RHS of a constraint by one unit.
 
----
 
 ### **Part 3: Sensitivity Analysis**
 
@@ -106,63 +103,62 @@ Logic for choosing between the various simplex methods based on the problem's fe
 
 - Determines the extent to which these values can change without altering the optimal basis of the solution.
 - Outputs the allowable ranges for each constraint and variable, providing insights into the solution's sensitivity to data changes in the model.
----
 
-### **Part 4: Path-Following Method**
+
+### Part 4: Path-Following Method
 
 1. **Initialization**:
-    - Primal variables (\(x, \omega\)) and dual variables (\(y, z\)) are initialized with positive feasible values.
-    - Variables must satisfy linear constraints defined by matrix \(A\) and vectors \(b, c\):
-        - \(x, \omega\): Primal variables.
-        - \(y, z\): Dual variables corresponding to constraints and the objective function.
+    - Primal variables (`x`, `ω`) and dual variables (`y`, `z`) are initialized with positive feasible values.
+    - Variables must satisfy linear constraints defined by matrix `A` and vectors `b`, `c`:
+        - `x`, `ω`: Primal variables.
+        - `y`, `z`: Dual variables corresponding to constraints and the objective function.
 
 2. **Residual Calculation**:
-    - **Primal Residual (\(\rho\))**:
-      \[
-      \rho = b - A x - \omega
-      \]
+    - **Primal Residual (`ρ`)**:
+      ```
+      ρ = b - A * x - ω
+      ```
       Ensures primal variables satisfy constraints.
-    - **Dual Residual (\(\sigma\))**:
-      \[
-      \sigma = c - A^T y + z
-      \]
+    - **Dual Residual (`σ`)**:
+      ```
+      σ = c - A^T * y + z
+      ```
       Ensures dual variables satisfy constraints.
 
-3. **Duality Measure (\(\mu\))**:
+3. **Duality Measure (`μ`)**:
     - Measure of convergence, calculated as:
-      \[
-      \mu = \frac{\delta \gamma}{n + m}
-      \]
+      ```
+      μ = (δ * γ) / (n + m)
+      ```
       Where:
-        - \(\delta\): Convergence rate.
-        - \(\gamma = x^T z + \omega^T y\): Duality gap, reflecting the difference between primal and dual objective values.
+        - `δ`: Convergence rate.
+        - `γ = x^T * z + ω^T * y`: Duality gap, reflecting the difference between primal and dual objective values.
 
 4. **Solve Linear System**:
-    - A system of equations is solved to find updates (\(\Delta x, \Delta y, \Delta z, \Delta \omega\)):
+    - A system of equations is solved to find updates (`Δx`, `Δy`, `Δz`, `Δω`):
         - Primal residual reduction:
-          \[
-          A \Delta x + \Delta \omega = \rho
-          \]
+          ```
+          A * Δx + Δω = ρ
+          ```
         - Dual residual reduction:
-          \[
-          A^T \Delta y - \Delta z = \sigma
-          \]
+          ```
+          A^T * Δy - Δz = σ
+          ```
         - Centrality maintenance:
-          \[
-          Z \Delta x + X \Delta z = \mu - x z
-          \]
-          \[
-          W \Delta y + Y \Delta \omega = \mu - y \omega
-          \]
+          ```
+          Z * Δx + X * Δz = μ - x * z
+          W * Δy + Y * Δω = μ - y * ω
+          ```
 
 5. **Variable Updates**:
-    - Adjust variables iteratively using step length (\(\theta\)):
-      \[
-      x = x + \theta \Delta x, \quad y = y + \theta \Delta y, \quad z = z + \theta \Delta z, \quad \omega = \omega + \theta \Delta \omega
-      \]
-    - Recalculate \(\mu\) and repeat until \(\mu < \text{tolerance}\) or the maximum iteration limit is reached.
-
----
+    - Adjust variables iteratively using step length (`θ`):
+      ```
+      x = x + θ * Δx
+      y = y + θ * Δy
+      z = z + θ * Δz
+      ω = ω + θ * Δω
+      ```
+    - Recalculate `μ` and repeat until `μ < tolerance` or the maximum iteration limit is reached.
 
 ## 3. Comparison
 
