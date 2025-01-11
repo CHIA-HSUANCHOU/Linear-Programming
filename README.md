@@ -1,7 +1,7 @@
 # Linear Programming Midterm Project 
----
-## **Project 1: Implement Simplex Methods**
 
+## **Project 1: Implement Simplex Methods**
+---
 Author: Group 4
 
 Date: 2024-10-07
@@ -51,10 +51,10 @@ Course: Linear Programming
 
 
 
----
+
 
 ##**Project 2: Implement Simplex Methods, sensitivity analysis, path-following method**
-
+---
 Author: Group 4
 
 Date: 2024-11-11
@@ -174,9 +174,10 @@ Logic for choosing between the various simplex methods based on the problem's fe
 |王睿言| Department of Industrial Engineering and Management | Printing out slack variables, dual variables and dual surplus variables |
 
 
----
 
 ##**Project 3: Farmer’s Problem with Bender Decomposition**
+
+---
 
 Author: Group 4
 
