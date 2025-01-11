@@ -1,6 +1,6 @@
 # Linear Programming Midterm Project 
 ---
-Project 1: Implement Simplex Methods
+## **Project 1: Implement Simplex Methods**
 
 Author: Group 4
 
@@ -53,7 +53,7 @@ Course: Linear Programming
 
 ---
 
-Project 2: Implement Simplex Methods, sensitivity analysis, path-following method
+##**Project 2: Implement Simplex Methods, sensitivity analysis, path-following method**
 
 Author: Group 4
 
@@ -176,7 +176,7 @@ Logic for choosing between the various simplex methods based on the problem's fe
 
 ---
 
-Project 3: Farmer’s Problem with Bender Decomposition
+##**Project 3: Farmer’s Problem with Bender Decomposition**
 
 Author: Group 4
 
