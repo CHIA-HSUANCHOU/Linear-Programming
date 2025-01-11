@@ -270,15 +270,15 @@ C5_S3: 1.0*w_3_3 ≤ 6000.0
 3. **Solve subproblems**
 - Check feasibility /Add Feasibility Cut
 
-  If the problem is complete recourse => No need to do feasibility test
+  -If the problem is complete recourse => No need to do feasibility test
   
 - Solve new master problem and resolve subproblem
   
-  If feasibility cut added, solve the master problem and subproblem again
+  -If feasibility cut added, solve the master problem and subproblem again
   
 - Check  optimality/Add  optimality cut
   
-After all scenarios of the subproblem  have been run through and optimality  has not been reached, add optimality cut to the master problem 
+  -After all scenarios of the subproblem  have been run through and optimality  has not been reached, add optimality cut to the master problem 
 
 4. Iterate until convergence
    - Stop when the **Upper Bound (UB)** and **Lower Bound (LB)** converge:
